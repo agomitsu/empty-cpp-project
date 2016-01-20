@@ -5,15 +5,14 @@ set(META_PROJECT_DESCRIPTION "C++ project template with CMake and Git")
 
 option(BUILD_EXECUTABLE "Build executable"       ON)
 option(BUILD_SHARED     "Build shared libraries" OFF)
-option(BUILD_TESTS      "Build tests"            OFF)
+option(BUILD_TEST       "Build test"             OFF)
 option(BUILD_EXAMPLES   "Build examples"         ON)
 
 project(${META_PROJECT_NAME})
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/deploy)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/deploy)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/deploy)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 cmake_policy(SET CMP0054 NEW)
 
@@ -37,4 +36,9 @@ else()
 	else()
 		add_library(${META_PROJECT_NAME} STATIC ${SOURCES})
 	endif()
+endif()
+
+if(BUILD_TEST)
+	file(GLOB_RECURSE TEST_SOURCES test/*.cpp)
+	add_executable(test ${TEST_SOURCES})
 endif()
